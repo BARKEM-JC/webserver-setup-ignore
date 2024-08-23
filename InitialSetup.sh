@@ -14,6 +14,8 @@ sudo ufw allow 4952/tcp
 
 # Update package list
 sudo apt-get update
+sudo apt-get install build-essential
+sudo apt-get install make
 
 # Install common dependencies
 sudo apt-get install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring build-essential git \
@@ -21,7 +23,7 @@ sudo apt-get install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring b
     nvidia-cuda-toolkit libx264-dev libx265-dev libvpx-dev libfdk-aac-dev libass-dev \
     libfreetype6-dev ubuntu-drivers-common nasm cmake libgtk2.0-dev pkg-config libavcodec-dev \
     libavformat-dev libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
-    libcanberra-gtk* libatlas-base-dev gfortran python3-dev python3-pip python3-numpy luajit2 yasm build-essential make
+    libcanberra-gtk* libatlas-base-dev gfortran python3-dev python3-pip python3-numpy luajit2 yasm 
 
 # Auto-install drivers
 #sudo ubuntu-drivers autoinstall
@@ -81,7 +83,7 @@ if [ "$install_nginx" == "y" ]; then
         #sudo make install
 
         # Download and install Nginx
-        cd ~/Downloads
+        cd ~
         wget https://nginx.org/download/nginx-1.22.1.tar.gz
         tar -zxvf nginx-1.22.1.tar.gz
         cd nginx-1.22.1
@@ -97,7 +99,7 @@ if [ "$install_nginx" == "y" ]; then
         ./configure \
         --add-module=/home/$(whoami)/projects/nginx-rtmp-module \
         #--add-module=/home/$(whoami)/projects/lua-nginx-module \
-        --with-ld-opt="-Wl,-rpath,/usr/local/lib" \
+        #--with-ld-opt="-Wl,-rpath,/usr/local/lib" \
         --add-module=/home/$(whoami)/projects/ngx_devel_kit \
         --with-http_ssl_module \
         --with-http_v2_module \
