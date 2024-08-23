@@ -21,7 +21,7 @@ sudo apt-get install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring b
     nvidia-cuda-toolkit libx264-dev libx265-dev libvpx-dev libfdk-aac-dev libass-dev \
     libfreetype6-dev ubuntu-drivers-common nasm cmake libgtk2.0-dev pkg-config libavcodec-dev \
     libavformat-dev libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
-    libcanberra-gtk* libatlas-base-dev gfortran python3-dev python3-pip python3-numpy luajit2 yasm build-essential
+    libcanberra-gtk* libatlas-base-dev gfortran python3-dev python3-pip python3-numpy luajit2 yasm build-essential make
 
 # Auto-install drivers
 #sudo ubuntu-drivers autoinstall
@@ -71,14 +71,14 @@ if [ "$install_nginx" == "y" ]; then
 
         # Clone the necessary modules
         git clone https://github.com/arut/nginx-rtmp-module.git ~/projects/nginx-rtmp-module
-        git clone https://github.com/openresty/lua-nginx-module.git ~/projects/lua-nginx-module
+        #git clone https://github.com/openresty/lua-nginx-module.git ~/projects/lua-nginx-module
         git clone https://github.com/vision5/ngx_devel_kit.git ~/projects/ngx_devel_kit
-        git clone https://github.com/openresty/lua-resty-core.git ~/projects/lua-resty-core
-        git clone https://github.com/openresty/lua-resty-lrucache.git ~/projects/lua-resty-lrucache
-        git clone https://luajit.org/git/luajit.git ~/projects/luajit
-        cd ~/projects/luajit
-        make
-        sudo make install
+        #git clone https://github.com/openresty/lua-resty-core.git ~/projects/lua-resty-core
+        #git clone https://github.com/openresty/lua-resty-lrucache.git ~/projects/lua-resty-lrucache
+        #git clone https://luajit.org/git/luajit.git ~/projects/luajit
+        #cd ~/projects/luajit
+        #make
+        #sudo make install
 
         # Download and install Nginx
         cd ~/Downloads
@@ -87,16 +87,16 @@ if [ "$install_nginx" == "y" ]; then
         cd nginx-1.22.1
 
         # Set up LuaJIT paths
-        export LUAJIT_LIB=/usr/local/lib/
-        export LUAJIT_INC=/usr/local/include/luajit-2.1
-        export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+        #export LUAJIT_LIB=/usr/local/lib/
+        #export LUAJIT_INC=/usr/local/include/luajit-2.1
+        #export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 	sudo chown -R $(whoami):$(whoami) /opt
 	
         # Configure Nginx with RTMP module
         ./configure \
         --add-module=/home/$(whoami)/projects/nginx-rtmp-module \
-        --add-module=/home/$(whoami)/projects/lua-nginx-module \
+        #--add-module=/home/$(whoami)/projects/lua-nginx-module \
         --with-ld-opt="-Wl,-rpath,/usr/local/lib" \
         --add-module=/home/$(whoami)/projects/ngx_devel_kit \
         --with-http_ssl_module \
@@ -106,37 +106,37 @@ if [ "$install_nginx" == "y" ]; then
         sudo make install
 
         # Install additional modules
-        cd ~/projects/lua-resty-core
-        make install PREFIX=/opt/nginx
-        cd ~/projects/lua-resty-lrucache
-        make install PREFIX=/opt/nginx
+        #cd ~/projects/lua-resty-core
+        #make install PREFIX=/opt/nginx
+        #cd ~/projects/lua-resty-lrucache
+        #make install PREFIX=/opt/nginx
         cd ~
         
         #!/bin/bash
 
 	# Define the path to the nginx configuration file
-	NGINX_CONF="/opt/nginx/conf/nginx.conf"
+	NGINX_CONF="/usr/local/nginx/conf/nginx.conf"
 
 	# Define the lua_package_path directive to be added
-	LUA_PACKAGE_PATH='    lua_package_path "/opt/nginx/lib/lua/?.lua;;";'
+	#LUA_PACKAGE_PATH='    lua_package_path "/opt/nginx/lib/lua/?.lua;;";'
 
 	# Backup the existing nginx.conf file
-	if [ -f "$NGINX_CONF" ]; then
-	    cp "$NGINX_CONF" "$NGINX_CONF.bak"
-	    echo "Backup of nginx.conf created at $NGINX_CONF.bak"
-	else
-	    echo "nginx.conf file not found at $NGINX_CONF"
-	    exit 1
-	fi
+	#if [ -f "$NGINX_CONF" ]; then
+	#    cp "$NGINX_CONF" "$NGINX_CONF.bak"
+	#    echo "Backup of nginx.conf created at $NGINX_CONF.bak"
+	#else
+	#    echo "nginx.conf file not found at $NGINX_CONF"
+	#    exit 1
+	#fi
 
 	# Check if the lua_package_path directive is already present
-	if grep -q 'lua_package_path' "$NGINX_CONF"; then
-	    echo "lua_package_path directive already exists in nginx.conf"
-	else
+	#if grep -q 'lua_package_path' "$NGINX_CONF"; then
+	#    echo "lua_package_path directive already exists in nginx.conf"
+	#else
 	    # Add the lua_package_path directive to the http context
-	    sed -i "/http {/a\\$LUA_PACKAGE_PATH" "$NGINX_CONF"
-	    echo "Added lua_package_path directive to nginx.conf"
-	fi
+	#    sed -i "/http {/a\\$LUA_PACKAGE_PATH" "$NGINX_CONF"
+	#    echo "Added lua_package_path directive to nginx.conf"
+	#fi
     fi
 fi
 
