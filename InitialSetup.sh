@@ -16,13 +16,18 @@ sudo ufw allow 4952/tcp
 sudo apt-get update
 sudo apt-get upgrade
 
+sudo apt-get install -y build-essential
+sudo apt-get install -y make
+sudo apt-get install -y libpcre2-dev
+sudo apt-get install -y openssl
+
 # Install common dependencies
-sudo apt-get install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring build-essential make git \
+sudo apt-get install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring make git \
     libpcre3 libpcre3-dev libssl-dev zlib1g-dev yasm libtool autoconf automake \
     nvidia-cuda-toolkit libx264-dev libx265-dev libvpx-dev libfdk-aac-dev libass-dev \
     libfreetype6-dev ubuntu-drivers-common nasm cmake libgtk2.0-dev pkg-config libavcodec-dev \
     libavformat-dev libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
-    libcanberra-gtk* libatlas-base-dev gfortran python3-dev python3-pip python3-numpy luajit2 yasm libpcre2-dev
+    libcanberra-gtk* libatlas-base-dev gfortran python3-dev python3-pip python3-numpy luajit2 yasm
 
 # Auto-install drivers
 #sudo ubuntu-drivers autoinstall
@@ -72,6 +77,9 @@ if [ "$install_nginx" == "y" ]; then
 
         # Clone the necessary modules
         git clone https://github.com/arut/nginx-rtmp-module.git ~/projects/nginx-rtmp-module
+		cd projects
+		wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz
+		tar -xvf openssl-1.1.1w.tar.gz
         #git clone https://github.com/openresty/lua-nginx-module.git ~/projects/lua-nginx-module
         #git clone https://github.com/vision5/ngx_devel_kit.git ~/projects/ngx_devel_kit
         #git clone https://github.com/openresty/lua-resty-core.git ~/projects/lua-resty-core
@@ -100,6 +108,7 @@ if [ "$install_nginx" == "y" ]; then
         #--add-module=/home/$(whoami)/projects/lua-nginx-module \
         #--with-ld-opt="-Wl,-rpath,/usr/local/lib" \
         #--add-module=/home/$(whoami)/projects/ngx_devel_kit \
+		--with-openssl=$HOME/projects/openssl-1.1.1w
         --with-http_ssl_module \
         --with-http_v2_module \
         --with-http_stub_status_module
