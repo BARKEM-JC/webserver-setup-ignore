@@ -110,8 +110,8 @@ if [ "$install_nginx" == "y" ]; then
         #--add-module=/home/$(whoami)/projects/ngx_devel_kit \
 		--with-openssl=$HOME/projects/openssl-1.1.1w
         --with-http_ssl_module \
-        --with-http_v2_module \
-        --with-http_stub_status_module
+        #--with-http_v2_module \
+        #--with-http_stub_status_module
         make
         sudo make install
 
