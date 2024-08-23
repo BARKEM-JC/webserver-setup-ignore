@@ -14,16 +14,15 @@ sudo ufw allow 4952/tcp
 
 # Update package list
 sudo apt-get update
-sudo apt-get install build-essential
-sudo apt-get install make
+sudo apt-get upgrade
 
 # Install common dependencies
-sudo apt-get install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring build-essential git \
+sudo apt-get install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring build-essential make git \
     libpcre3 libpcre3-dev libssl-dev zlib1g-dev yasm libtool autoconf automake \
     nvidia-cuda-toolkit libx264-dev libx265-dev libvpx-dev libfdk-aac-dev libass-dev \
     libfreetype6-dev ubuntu-drivers-common nasm cmake libgtk2.0-dev pkg-config libavcodec-dev \
     libavformat-dev libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
-    libcanberra-gtk* libatlas-base-dev gfortran python3-dev python3-pip python3-numpy luajit2 yasm 
+    libcanberra-gtk* libatlas-base-dev gfortran python3-dev python3-pip python3-numpy luajit2 yasm libpcre2-dev
 
 # Auto-install drivers
 #sudo ubuntu-drivers autoinstall
@@ -74,7 +73,7 @@ if [ "$install_nginx" == "y" ]; then
         # Clone the necessary modules
         git clone https://github.com/arut/nginx-rtmp-module.git ~/projects/nginx-rtmp-module
         #git clone https://github.com/openresty/lua-nginx-module.git ~/projects/lua-nginx-module
-        git clone https://github.com/vision5/ngx_devel_kit.git ~/projects/ngx_devel_kit
+        #git clone https://github.com/vision5/ngx_devel_kit.git ~/projects/ngx_devel_kit
         #git clone https://github.com/openresty/lua-resty-core.git ~/projects/lua-resty-core
         #git clone https://github.com/openresty/lua-resty-lrucache.git ~/projects/lua-resty-lrucache
         #git clone https://luajit.org/git/luajit.git ~/projects/luajit
@@ -93,14 +92,14 @@ if [ "$install_nginx" == "y" ]; then
         #export LUAJIT_INC=/usr/local/include/luajit-2.1
         #export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
-	sudo chown -R $(whoami):$(whoami) /opt
+	#sudo chown -R $(whoami):$(whoami) /opt
 	
         # Configure Nginx with RTMP module
         ./configure \
-        --add-module=/home/$(whoami)/projects/nginx-rtmp-module \
+        --add-module=$HOME/projects/nginx-rtmp-module \
         #--add-module=/home/$(whoami)/projects/lua-nginx-module \
         #--with-ld-opt="-Wl,-rpath,/usr/local/lib" \
-        --add-module=/home/$(whoami)/projects/ngx_devel_kit \
+        #--add-module=/home/$(whoami)/projects/ngx_devel_kit \
         --with-http_ssl_module \
         --with-http_v2_module \
         --with-http_stub_status_module
