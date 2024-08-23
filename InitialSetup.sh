@@ -21,7 +21,7 @@ sudo apt-get install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring b
     nvidia-cuda-toolkit libx264-dev libx265-dev libvpx-dev libfdk-aac-dev libass-dev \
     libfreetype6-dev ubuntu-drivers-common nasm cmake libgtk2.0-dev pkg-config libavcodec-dev \
     libavformat-dev libswscale-dev libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev \
-    libcanberra-gtk* libatlas-base-dev gfortran python3-dev python3-pip python3-numpy luajit2 yasm
+    libcanberra-gtk* libatlas-base-dev gfortran python3-dev python3-pip python3-numpy luajit2 yasm build-essential
 
 # Auto-install drivers
 #sudo ubuntu-drivers autoinstall
